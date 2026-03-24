@@ -14,10 +14,12 @@ import java.security.Key;
 class PlayerControllerSystem extends IteratingSystem {
     ComponentMapper<PlayerComponent> plc = ComponentMapper.getFor(PlayerComponent.class);
     ComponentMapper<PositionComponent> pc = ComponentMapper.getFor(PositionComponent.class);
-    TiledMap map;
-    public PlayerControllerSystem(TiledMap map){
-        super(Family.all(PlayerComponent.class,PositionComponent.class).get());
-        this.map = map;
+    ComponentMapper<StaminaComponent> sc = ComponentMapper.getFor(StaminaComponent.class);
+    ComponentMapper<MoveIntent> mc = ComponentMapper.getFor(MoveIntent.class);
+
+
+    public PlayerControllerSystem(){
+        super(Family.all(PlayerComponent.class,PositionComponent.class, MoveIntent.class).get());
 
 
     }
@@ -28,37 +30,56 @@ class PlayerControllerSystem extends IteratingSystem {
     @Override
     protected void processEntity(Entity entity, float v) {
         PositionComponent pos = pc.get(entity);
+        StaminaComponent staminaComponent = sc.get(entity);
+        MoveIntent moveIntent = mc.get(entity);
 
+        if(!Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
+            if (Gdx.input.isKeyJustPressed(Input.Keys.W) && staminaComponent.full) {
+                moveIntent.movY += 1;
+                moveIntent.done = false;
+                staminaComponent.full = false;
 
-        float nextX = pos.position.x;
-        float nextY = pos.position.y;
-
-
-        if (Gdx.input.isKeyJustPressed(Input.Keys.W)) nextY += 1;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.S)) nextY -= 1;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.A)) nextX -= 1;
-        if (Gdx.input.isKeyJustPressed(Input.Keys.D)) nextX += 1;
-
-
-        if (!isCellBlocked(nextX, nextY)) {
-            pos.position.x = nextX;
-            pos.position.y = nextY;
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.S) && staminaComponent.full) {
+                moveIntent.movY -= 1;
+                moveIntent.done = false;
+                staminaComponent.full = false;
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.A) && staminaComponent.full) {
+                moveIntent.movX -= 1;
+                moveIntent.done = false;
+                staminaComponent.full = false;
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.D) && staminaComponent.full) {
+                moveIntent.movX += 1;
+                moveIntent.done = false;
+                staminaComponent.full = false;
+            }
+        }
+        else {
+            if (Gdx.input.isKeyPressed(Input.Keys.W) && staminaComponent.full) {
+                moveIntent.movY += 1;
+                moveIntent.done = false;
+                staminaComponent.full = false;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.S) && staminaComponent.full) {
+                moveIntent.movY -= 1;
+                moveIntent.done = false;
+                staminaComponent.full = false;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.A) && staminaComponent.full) {
+                moveIntent.movX -= 1;
+                moveIntent.done = false;
+                staminaComponent.full = false;
+            }
+            if (Gdx.input.isKeyPressed(Input.Keys.D) && staminaComponent.full) {
+                moveIntent.movX += 1;
+                moveIntent.done = false;
+                staminaComponent.full = false;
+            }
         }
     }
 
-    public boolean isCellBlocked(float x, float y) {
-        TiledMapTileLayer layer = (TiledMapTileLayer) map.getLayers().get("walls");
-        if (layer == null) return false;
 
-
-        int cellX = (int) x;
-        int cellY = (int) y;
-
-        TiledMapTileLayer.Cell cell = layer.getCell(cellX, cellY);
-
-        return cell != null &&
-            cell.getTile() != null &&
-            cell.getTile().getProperties().containsKey("solid");
-    }
 
 }
