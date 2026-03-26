@@ -27,7 +27,7 @@ public class CollisionSystem extends IteratingSystem {
         if (isCellBlocked(positionComponent.position.x+ moveIntent.movX, positionComponent.position.y + moveIntent.movY)) {
             moveIntent.movX = 0;
             moveIntent.movY = 0;
-            moveIntent.done = false;
+
         }
     }
 

@@ -38,8 +38,8 @@ public class RenderSystem extends IteratingSystem {
 
         spriteBatch.draw(
             textureComponent.textureRegion, // 1. Регион
-            (positionComponent.renderPosition.x * tileSize) , // 2. X (с учетом origin 100/2)
-            (positionComponent.renderPosition.y * tileSize) , // 3. Y (с учетом origin 100/2)
+            (positionComponent.position.x * tileSize) , // 2. X (с учетом origin 100/2)
+            (positionComponent.position.y * tileSize) , // 3. Y (с учетом origin 100/2)
             16, 32,   // 4, 5. OriginX, OriginY (центр вращения)
             32, 64, // 6, 7. Ширина и Высота
             1f, 1f,   // 8, 9. Масштаб (ScaleX, ScaleY)

@@ -21,6 +21,7 @@ public class EntityFaсtory {
         player.add(new StaminaComponent());
         player.add(new ColliderComponent());
         player.add(new MoveIntent());
+        player.add(new NameComponent("Roma"));
         player.add(new PlayerComponent());
 
         engine.addEntity(player);
@@ -28,12 +29,13 @@ public class EntityFaсtory {
 
     public void createNPC(){
         Entity npc = engine.createEntity();
-        npc.add(new PositionComponent(10,5));
-        npc.add(new TextureComponent(assetManager.get("tile.png", Texture.class)));
+        npc.add(new PositionComponent(15,10));
+        npc.add(new TextureComponent(assetManager.get("player.png", Texture.class)));
         npc.add(new AITimerComponent());
         npc.add(new NPCComponent());
         npc.add(new ColliderComponent());
         npc.add(new MoveIntent());
+        npc.add(new NameComponent("Kohaku"));
         engine.addEntity(npc);
 
     }

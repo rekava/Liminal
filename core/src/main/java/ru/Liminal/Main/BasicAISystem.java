@@ -44,19 +44,19 @@ public class BasicAISystem extends IteratingSystem {
             switch (randDir){
                 case 1:
                     //positionComponent.position.x += randStep;
-                    moveIntent.movX += randStep;
+                    moveIntent.movX += 1;
                     break;
                 case 2:
                     //positionComponent.position.x -= randStep;
-                    moveIntent.movX -= randStep;
+                    moveIntent.movX -= 1;
                     break;
                 case 3:
                     //positionComponent.position.y += randStep;
-                    moveIntent.movX += randStep;
+                    moveIntent.movY += 1;
                     break;
                 case 4:
                     //positionComponent.position.y -= randStep;
-                    moveIntent.movX -= randStep;
+                    moveIntent.movY -= 1;
                     break;
 
             }
