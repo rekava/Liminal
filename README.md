@@ -1,4 +1,4 @@
-# LIminal
+# Liminal
 
 > A story-driven roguelike in development.
 
