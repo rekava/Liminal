@@ -29,53 +29,40 @@ class PlayerControllerSystem extends IteratingSystem {
     }
     @Override
     protected void processEntity(Entity entity, float v) {
-        PositionComponent pos = pc.get(entity);
-        StaminaComponent staminaComponent = sc.get(entity);
-        MoveIntent moveIntent = mc.get(entity);
+        StaminaComponent stamina = sc.get(entity);
+        MoveIntent move = mc.get(entity);
+        // PositionComponent нам тут нужен только если мы проверяем коллизии заранее,
+        // но сейчас мы просто задаем НАМЕРЕНИЕ (MoveIntent).
 
-        if(!Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT)) {
-            if (Gdx.input.isKeyJustPressed(Input.Keys.W) && staminaComponent.full) {
-                moveIntent.movY += 1;
-                moveIntent.done = false;
-                staminaComponent.full = false;
+        if (!stamina.full) return;
 
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.S) && staminaComponent.full) {
-                moveIntent.movY -= 1;
-                moveIntent.done = false;
-                staminaComponent.full = false;
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.A) && staminaComponent.full) {
-                moveIntent.movX -= 1;
-                moveIntent.done = false;
-                staminaComponent.full = false;
-            }
-            if (Gdx.input.isKeyJustPressed(Input.Keys.D) && staminaComponent.full) {
-                moveIntent.movX += 1;
-                moveIntent.done = false;
-                staminaComponent.full = false;
-            }
-        }
-        else {
-            if (Gdx.input.isKeyPressed(Input.Keys.W) && staminaComponent.full) {
-                moveIntent.movY += 1;
-                moveIntent.done = false;
-                staminaComponent.full = false;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.S) && staminaComponent.full) {
-                moveIntent.movY -= 1;
-                moveIntent.done = false;
-                staminaComponent.full = false;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.A) && staminaComponent.full) {
-                moveIntent.movX -= 1;
-                moveIntent.done = false;
-                staminaComponent.full = false;
-            }
-            if (Gdx.input.isKeyPressed(Input.Keys.D) && staminaComponent.full) {
-                moveIntent.movX += 1;
-                moveIntent.done = false;
-                staminaComponent.full = false;
+        // Сбрасываем старые значения намерения перед опросом клавиш
+        move.movX = 0;
+        move.movY = 0;
+
+        boolean shift = Gdx.input.isKeyPressed(Input.Keys.SHIFT_LEFT);
+
+        if (Gdx.input.isKeyPressed(Input.Keys.W)) move.movY = 1;
+        if (Gdx.input.isKeyPressed(Input.Keys.S)) move.movY = -1;
+        if (Gdx.input.isKeyPressed(Input.Keys.A)) move.movX = -1;
+        if (Gdx.input.isKeyPressed(Input.Keys.D)) move.movX = 1;
+
+
+        if (move.movX != 0 || move.movY != 0) {
+
+
+            boolean isStartingMove = Gdx.input.isKeyJustPressed(Input.Keys.W) ||
+                Gdx.input.isKeyJustPressed(Input.Keys.S) ||
+                Gdx.input.isKeyJustPressed(Input.Keys.A) ||
+                Gdx.input.isKeyJustPressed(Input.Keys.D);
+
+            if (shift || isStartingMove) {
+                stamina.full = false;
+                move.done = false;
+            } else {
+
+                move.movX = 0;
+                move.movY = 0;
             }
         }
     }
