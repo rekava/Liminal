@@ -4,7 +4,7 @@
 
 **Status:** Early prototype — core systems being built.
 
-Inspired by Elona, Disco Elysium, and Hades.
+Inspired by Elona
 
 ---
 
